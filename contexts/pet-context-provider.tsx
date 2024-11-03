@@ -7,7 +7,7 @@ import {createContext, useOptimistic, useState} from 'react';
 // import { toast } from "sonner";
 
 type PetContextProviderProps = {
-	data: Pet[];
+	pets: Pet[];
 	children: React.ReactNode;
 };
 
@@ -24,8 +24,7 @@ type TPetContext = {
 
 export const PetContext = createContext<TPetContext | null>(null);
 
-export default function PetContextProvider({data, children}: PetContextProviderProps) {
-	const [pets, setPets] = useState(data);
+export default function PetContextProvider({pets, children}: PetContextProviderProps) {
 	// state
 	// const [optimisticPets, setOptimisticPets] = useOptimistic(data, (state, {action, payload}) => {
 	// 	switch (action) {
@@ -81,11 +80,11 @@ export default function PetContextProvider({data, children}: PetContextProviderP
 	};
 
 	const handleCheckoutPet = async (petId: Pet['id']) => {
-		setPets((prev) => prev.filter((pet) => pet.id !== petId));
+		// setPets((prev) => prev.filter((pet) => pet.id !== petId));
 		setSelectedPetId(null);
 	};
 	const handleAddPet = (newPet: PetEssentials) => {
-		setPets((prev) => [...prev, {...newPet, id: Math.random().toString()}]);
+		// setPets((prev) => [...prev, {...newPet, id: Math.random().toString()}]);
 	};
 	return (
 		<PetContext.Provider

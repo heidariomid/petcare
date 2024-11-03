@@ -1,10 +1,12 @@
-// "use server";
+'use server';
 
 // import { auth, signIn, signOut } from "@/lib/auth-no-edge";
-// import prisma from "@/lib/db";
+import prisma from '@/lib/db';
+import {Pet} from '@/lib/types';
+import {sleep} from '@/lib/utils';
 // import { sleep } from "@/lib/utils";
 // import { authSchema, petFormSchema, petIdSchema } from "@/lib/validations";
-// import { revalidatePath } from "next/cache";
+import {revalidatePath} from 'next/cache';
 // import bcrypt from "bcryptjs";
 // import { redirect } from "next/navigation";
 // import { checkAuth, getPetById } from "@/lib/server-utils";
@@ -236,3 +238,56 @@
 //   // redirect user
 //   redirect(checkoutSession.url);
 // }
+
+export const addPet = async (formData) => {
+	// await sleep(3000);
+
+	try {
+		await prisma.pet.create({
+			data: {
+				name: formData.get('name'),
+				ownerName: formData.get('ownerName'),
+				imageUrl: formData.get('imageUrl') || '',
+				age: parseInt(formData.get('age')),
+				notes: formData.get('notes'),
+			},
+		});
+		revalidatePath('/', 'layout');
+	} catch (error) {
+		return {message: 'Could not add pet.'};
+	}
+};
+
+export const editPet = async (petId, formData) => {
+	try {
+		await prisma.pet.update({
+			where: {
+				id: petId,
+			},
+			data: {
+				name: formData.get('name'),
+				ownerName: formData.get('ownerName'),
+				imageUrl: formData.get('imageUrl') || '',
+				age: parseInt(formData.get('age')),
+				notes: formData.get('notes'),
+			},
+		});
+		revalidatePath('/', 'layout');
+	} catch (error) {
+		return {message: 'Could not edit pet.'};
+	}
+};
+
+export const deletePet = async (petId) => {
+	await sleep(3000);
+	try {
+		await prisma.pet.delete({
+			where: {
+				id: petId,
+			},
+		});
+		revalidatePath('/', 'layout');
+	} catch (error) {
+		return {message: 'Could not delete pet.'};
+	}
+};

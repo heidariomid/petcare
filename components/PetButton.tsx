@@ -6,6 +6,8 @@ import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from '.
 import PetForm from './PetForm';
 import {useState} from 'react';
 import {flushSync} from 'react-dom';
+import Image from 'next/image';
+import spinner from '@/public/spinner.svg';
 
 type PetButtonProps = {
 	actionType: 'add' | 'edit' | 'checkout';
@@ -19,9 +21,20 @@ export default function PetButton({actionType, disabled, onClick, children}: Pet
 
 	if (actionType === 'checkout') {
 		return (
-			<Button variant='destructive' disabled={disabled} onClick={onClick}>
-				{children}
-			</Button>
+			<>
+				<Button variant='destructive' disabled={disabled} onClick={onClick}>
+					{children}
+					{disabled && (
+						<Image
+							src={spinner}
+							alt='Loading spinner'
+							width={16}
+							height={16}
+							className='animate-spin -mr-1 ml-3 h-5 w-5 text-white'
+						/>
+					)}
+				</Button>
+			</>
 		);
 	}
 

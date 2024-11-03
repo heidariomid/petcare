@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import {Inter} from 'next/font/google';
 import '../../styles/globals.css';
+import Logo from '@/components/Logo';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -16,5 +17,10 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <>{children}</>;
+	return (
+		<div className='flex flex-col gap-y-5 justify-center items-center min-h-screen bg-zinc-900 text-white'>
+			<Logo />
+			{children}
+		</div>
+	);
 }
