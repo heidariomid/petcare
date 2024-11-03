@@ -23,9 +23,9 @@ model User {
 model Pet {
   id        String   @id @default(cuid())
   name      String
-  owner     User     @relation(fields: [ownerId], references: [id])
-  ownerId   String
-  ownerName String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  userName  String
   imageUrl  String
   age       Int
   notes     String
